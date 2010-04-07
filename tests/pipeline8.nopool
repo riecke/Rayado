@@ -1,0 +1,29 @@
+# Pipeline test
+[general]
+nopool
+queue 1024
+
+[nodes]
+source1 10
+pipe1 20
+pipe2 30
+pipe3 40
+pipe4 50
+pipe5 60
+pipe6 70
+pipe7 80
+
+[edges]
+source1 pipe1
+pipe1 pipe2
+pipe2 pipe3
+pipe3 pipe4
+pipe4 pipe5
+pipe5 pipe6
+pipe6 pipe7
+
+[sources]
+source1 100000 2000000
+
+[targets]
+pipe7 /tmp/pipe7

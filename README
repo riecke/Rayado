@@ -1,0 +1,43 @@
+This directory contains the source code and Makefile for simulating
+some simple threading models for processing a dataflow graph.
+
+The example configuration files in the "tests" subdirectory specify
+some dataflow graphs.  Nodes have processing times (implemented as a
+busy loop); edges connect nodes; and sources have a specified rate
+(number of messages per second).  One can specify targets as well: the
+latency of processing the message from the time it enters the graph
+(the source) till the time (in microseconds) it appears at the target
+node is written in binary form to the file.  A separate program,
+"processLatency", included in this directory, can be used to generate
+statistics about the latencies.
+
+Two separate models can be tested (specified in the "general"
+section of the configuration files):
+
+1. nopool: Each node has a thread, and the queue of messages in front
+   of the node has a finite depth (specified in the configuration
+   file).  When a queue fills up, writers block, which implements the
+   backpressure scheduling idea.
+
+2. pool: A fixed number of threads is used instead of one per node.
+   When a thread in the pool is free, it asks for work from a priority
+   queue.  The priority queue is based on the number of messages in
+   the queue of the node, so slower nodes get scheduled more
+   frequently.
+
+---------------------------------------------------------------
+IMPLEMENTATION
+
+1. Sources are not implemented with a sleep between each event (which
+   turns out to be slow), but by inserting the required number of
+   messages in a batch for each millisecond.
+
+2. The priority queue in "pool" mode seems to be the bottleneck.  It
+   has to be locked, which makes for a lot of contention.
+
+3. An alternative might simply keep a vector of all nodes.  When a
+   worker needs to find work, it simply looks iterates through the
+   vector and finds the max node not busy.  It then forces the swap of
+   the queues within and starts the node atomically (an optimistic
+   locking strategy).
+

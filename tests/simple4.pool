@@ -1,0 +1,29 @@
+# Simple test
+[general]
+pool 4
+queue 1024
+
+[nodes]
+source1 10
+source2 10
+source3 10
+source4 10
+aggregate1 20
+aggregate2 20
+aggregate3 20
+aggregate4 20
+
+[edges]
+source1 aggregate1
+source2 aggregate2
+source3 aggregate3
+source4 aggregate4
+
+[sources]
+source1 25000 500000
+source2 25000 500000
+source3 25000 500000
+source4 25000 500000
+
+[targets]
+aggregate1 /tmp/out
