@@ -27,7 +27,7 @@ class DataflowGraph {
 
 public:
     // Constructor/destructor
-    DataflowGraph(): _poolMode(false), _tbbMode(true), _queueSize(1024), _poolSize(2) {}
+    DataflowGraph(): _poolMode(false), _tbbMode(true), _queueSize(1024), _poolSize(2), _flipMode(true) {}
     virtual ~DataflowGraph() {}
 
     // Get/set properties
@@ -35,11 +35,13 @@ public:
     inline bool getTbbMode()        { return _tbbMode; }
     inline int getPoolSize()        { return _poolSize; }
     inline bool getQueueSize()      { return _queueSize; }
+    inline bool getFlipMode()       { return _flipMode; }
 
     inline void setPoolMode(bool b) { _poolMode = b; }
     inline void setTbbMode(bool b)  { _tbbMode = b; }
     inline void setPoolSize(int s)  { _poolSize = s; }
     inline void setQueueSize(int q) { _queueSize = q; }
+    inline void setFlipMode(bool b) { _flipMode = b; }
 
     // Add a node to the graph
     void addNode(const string & node, int delay);
@@ -61,6 +63,7 @@ private:
     bool _tbbMode;
     int _poolSize;
     int _queueSize;
+    bool _flipMode;
     map<string, DataflowNode *> _nodes;
     set<DataflowNode *> _inputs;
     set<Source *> _sources;

@@ -20,7 +20,8 @@
 class ThreadNode : public DataflowNode, public Poco::Runnable {
 public:
     // Constructor/destructor
-    ThreadNode(string name, int delay, int size, bool tbb) : DataflowNode(name, delay, size, true, tbb) { } 
+    ThreadNode(string name, int delay, int size, bool tbb, bool flipMode) : 
+	DataflowNode(name, delay, size, true, tbb, flipMode) { } 
     virtual ~ThreadNode() { }
 
     // Start the node

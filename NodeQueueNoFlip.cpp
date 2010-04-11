@@ -11,10 +11,10 @@
 
 #include <assert.h>
 #include "Debug.hpp"
-#include "NodeQueueSimple.hpp"
+#include "NodeQueueNoFlip.hpp"
 
 uint64_t
-NodeQueueSimple::size()
+NodeQueueNoFlip::size()
 {
     Poco::ScopedLock<Poco::Mutex> l(_queueLock);
     return _queue.size();
@@ -22,33 +22,24 @@ NodeQueueSimple::size()
 
 // Put a message into the queue---called from another thread
 void 
-NodeQueueSimple::push(Message * m)
+NodeQueueNoFlip::push(Message * m)
 {
     Poco::ScopedLock<Poco::Mutex> l(_queueLock);
     debugOut("Push: %s, queue %lu\n", _name.c_str(), _queue.size());
     _queue.push_back(m);
 }    
 
-void
-NodeQueueSimple::flip()
-{
-    // wait until the queue is nonempty
-    Poco::ScopedLock<Poco::Mutex> l(_queueLock);
-    assert(_readQueue.empty());
-    //fprintf(stderr, "Flip: queue %p %lu %d\n", this, _queue.size(), _queue.empty());    
-    _queue.swap(_readQueue);
-}
-
 Message *
-NodeQueueSimple::pop()
+NodeQueueNoFlip::pop()
 {
     // get the message
-    if (_readQueue.empty()) {
+    Poco::ScopedLock<Poco::Mutex> l(_queueLock);
+    if (_queue.empty()) {
 	return NULL;
     }
-    debugOut("Pop: queue %lu\n", _readQueue.size());
-    //fprintf(stderr, "Pop: queue %p %lu %d\n", this, _readQueue.size(), _readQueue.empty());
-    Message * m = _readQueue.front();
-    _readQueue.pop_front();
+    debugOut("Pop: queue %lu\n", _queue.size());
+    //fprintf(stderr, "Pop: queue %p %lu %d\n", this, _queue.size(), _queue.empty());
+    Message * m = _queue.front();
+    _queue.pop_front();
     return m;
 }

@@ -1,7 +1,7 @@
 #----------------------------------------------------------
 # Variables
 
-POCO=../../../thirdParty/libs/poco-1.3.6p2
+POCO=/home/riecke/Work/rayado/thirdParty/libs/poco-1.3.6p2
 
 CXX = g++
 CC = gcc
@@ -15,6 +15,7 @@ SRC = \
 	DataflowGraph.cpp \
 	DataflowNode.cpp \
 	NodeQueueBlocking.cpp \
+	NodeQueueNoFlip.cpp \
 	NodeQueueSimple.cpp \
 	PoolNode.cpp \
 	PriorityWorkQueue.cpp \

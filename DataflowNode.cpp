@@ -20,17 +20,21 @@
 #include "Debug.hpp"
 #include "Message.hpp"
 #include "NodeQueueBlocking.hpp"
+#include "NodeQueueNoFlip.hpp"
 #include "NodeQueueSimple.hpp"
 #include "Target.hpp"
 #include "Timing.hpp"
 
-DataflowNode::DataflowNode(string name, int delay, int size, bool blockingQueue, bool tbb):
+DataflowNode::DataflowNode(string name, int delay, int size, 
+			   bool blockingQueue, bool flippingQueue, bool tbb):
     _name(name), _delay(delay), _downstream(0), _target(NULL)
 {
     if (blockingQueue) {
 	_queue = new NodeQueueBlocking(size);
-    } else {
+    } else if (flippingQueue) {
 	_queue = new NodeQueueSimple();
+    } else {
+	_queue = new NodeQueueNoFlip();
     }
 }
 

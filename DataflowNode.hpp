@@ -28,7 +28,8 @@ class Target;
 class DataflowNode {
 public:
     // Constructor/destructor
-    DataflowNode(string name, int delay, int size, bool blockingQueue, bool tbb);
+    DataflowNode(string name, int delay, int size, 
+		 bool blockingQueue, bool flippingQueue=true, bool tbb=false);
     virtual ~DataflowNode();
 
     // Get name or delay

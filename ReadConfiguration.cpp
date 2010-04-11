@@ -8,6 +8,7 @@
 //   [general]
 //   pool <n> | nopool 
 //   queue <queue size>
+//   flip | noflip
 //
 //   [nodes]
 //   <name0> <delay0>  (delay in milliseconds)
@@ -60,6 +61,7 @@ DataflowGraph * readFileAsString(const string & filename)
     string line, field1, field2;
     DataflowGraph * graph = new DataflowGraph();
     ifstream input(filename.c_str());
+    bool flipMode = true;
     bool poolMode = false;
     bool generalMode = false;
     bool nodeMode = false;
@@ -99,6 +101,8 @@ DataflowGraph * readFileAsString(const string & filename)
 	    } else if (field1 == "queue") {
 		int size = atoi(field2.c_str());
 		graph->setQueueSize(size);
+	    } else if (field1 == "noflip") {
+		graph->setFlipMode(false);
 	    }
 	} else if (nodeMode) {
 	    int delay = atoi(field2.c_str());

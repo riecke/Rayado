@@ -21,8 +21,8 @@ class WorkQueue;
 class PoolNode : public DataflowNode {
 public:
     // Constructor/destructor
-    PoolNode(string name, int delay, int size) : 
-	DataflowNode(name, delay, size, false, false), _idle(true) { } 
+    PoolNode(string name, int delay, int size, bool flipMode) : 
+	DataflowNode(name, delay, size, false, false, flipMode), _idle(true) { } 
     virtual ~PoolNode() { }
 
     // Set the work queue

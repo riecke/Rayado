@@ -2,6 +2,7 @@
 [general]
 nopool
 queue 64
+noflip
 
 [nodes]
 source1 10

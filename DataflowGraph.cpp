@@ -29,8 +29,8 @@ void
 DataflowGraph::addNode(const string & name, int delay)
 {
     DataflowNode * node = _poolMode ? 
-	(DataflowNode *) new PoolNode(name, delay, _queueSize) : 
-	(DataflowNode *) new ThreadNode(name, delay, _queueSize, _tbbMode);
+	(DataflowNode *) new PoolNode(name, delay, _queueSize, _flipMode) : 
+	(DataflowNode *) new ThreadNode(name, delay, _queueSize, _tbbMode, _flipMode);
     _nodes[name] = node;
 }
 
